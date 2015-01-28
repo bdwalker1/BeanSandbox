@@ -9,9 +9,9 @@ This function is used to initialize all control values to their defaults.
 
 **Usage:** 
 
-`BeanSandbox sbx;`
+    `BeanSandbox sbx;`
 
-`sbx.initializeValues();`
+    `sbx.initializeValues();`
 
 ### byte getSliderValue( byte nSlider )
 
