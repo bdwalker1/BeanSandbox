@@ -46,7 +46,9 @@ BeanSandbox::BeanSandbox()
   initializeValues();
 
   // Initialize last processed time
-  _nLastProcessed = millis();
+  _nLastProcessed = 0;
+
+  _nLastControlUpdate = 0;
 }
 
 BeanSandbox::~BeanSandbox()
@@ -63,6 +65,17 @@ void BeanSandbox::initializeValues()
   _nTouchpadValuesImmediate[0] = 0; _nTouchpadValuesImmediate[1] = 0;
   _nTouchpadValuesOnRelease[0] = 0; _nTouchpadValuesOnRelease[1] = 0;
   for(int i=0;i<16;i++) { _bPushButtonImmediate[i] = false; _bPushButtonToggle[i] = false; }
+}
+
+boolean BeanSandbox::autoUpdateSandbox( boolean bYesNo )
+{
+    _bAutoUpdateSandbox = bYesNo;
+    return _bAutoUpdateSandbox;
+}
+
+boolean BeanSandbox::autoUpdateSandbox()
+{
+    return _bAutoUpdateSandbox;
 }
 
 void BeanSandbox::_processSerial()
@@ -82,7 +95,7 @@ void BeanSandbox::_processSerial()
     length = Serial.readBytes(_buffer, length);
   
     // If we read anything, process it.
-    if ( length > 0 )
+    while ( length > 0 )
     {
       // Loop through the buffer two bytes at a time. 
       for (int i=0; i<(length-1); i+=2)
@@ -276,6 +289,18 @@ void BeanSandbox::_processSerial()
             break;
           }
         }
+      }
+      // Read any additional waiting serial input
+      length = Serial.readBytes(_buffer, length);
+    }
+
+    // Update sandbox controls if enabled
+    if(_bAutoUpdateSandbox)
+    {
+      if( (_nLastControlUpdate > nNow) || ( (nNow-_nLastControlUpdate) > 500 ) )
+      {
+        _updateAllControls();
+        _nLastControlUpdate = nNow;
       }
     }
   }
@@ -606,5 +631,56 @@ boolean BeanSandbox::_sendControlValueToBean( byte nControl, byte nValue )
   Bean.sleep(5);
 
   return true;  
+}
+
+void BeanSandbox::_updateAllControls()
+{
+  char sendBuffer[60];
+
+  // First, we’ll send slider values
+  sendBuffer[0] = SBX_SLIDER1;
+  sendBuffer[1] = getSliderValue(1);
+  sendBuffer[2] = SBX_SLIDER2;
+  sendBuffer[3] = getSliderValue(2);
+  sendBuffer[4] = SBX_SLIDER3;
+  sendBuffer[5] = getSliderValue(3);
+  sendBuffer[6] = SBX_SLIDER4;
+  sendBuffer[7] = getSliderValue(4);
+  sendBuffer[8] = SBX_SLIDER5;
+  sendBuffer[9] = getSliderValue(5);
+  sendBuffer[10] = SBX_SLIDER6;
+  sendBuffer[11] = getSliderValue(6);
+
+  // Next, we’ll send checkbox values
+  sendBuffer[12] = SBX_CHKBOX1;
+  sendBuffer[13] = (byte) isChecked(1);
+  sendBuffer[14] = SBX_CHKBOX2;
+  sendBuffer[15] = (byte) isChecked(2);
+  sendBuffer[16] = SBX_CHKBOX3;
+  sendBuffer[17] = (byte) isChecked(3);
+  sendBuffer[18] = SBX_CHKBOX4;
+  sendBuffer[19] = (byte) isChecked(4);
+  sendBuffer[20] = SBX_CHKBOX5;
+  sendBuffer[21] = (byte) isChecked(5);
+  sendBuffer[22] = SBX_CHKBOX6;
+  sendBuffer[23] = (byte) isChecked(6);
+
+  // Next, we’ll send checkbox values
+  for(int i=0; i<16; i++)
+  {
+    sendBuffer[(i*2)+24] = (byte) (i+13);
+    sendBuffer[(i*2)+25] = (byte) isBtnPressed(i+1);
+  }
+
+  // Add the touchpad values
+  sendBuffer[56] = SBX_PADX;
+  sendBuffer[57] = getTouchpadX();
+  sendBuffer[58] = SBX_PADY;
+  sendBuffer[59] = 255-getTouchpadY();
+
+  // Send the info to the sandbox
+  Serial.write( (uint8_t*) sendBuffer, 60 );
+  delay(10);
+  Bean.sleep(50);
 }
 

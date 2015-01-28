@@ -37,6 +37,8 @@ class BeanSandbox
     ~BeanSandbox();
 
     void initializeValues();
+    boolean autoUpdateSandbox( boolean bYesNo );
+    boolean autoUpdateSandbox();
     byte getSliderValue( byte nSlider );
     boolean setSliderValue( byte nSlider, byte nValue );
     boolean isChecked( byte nCheckbox );
@@ -53,6 +55,7 @@ class BeanSandbox
     boolean setButton( byte nButton, boolean bPressed );
     
   private:
+    boolean _bAutoUpdateSandbox;
     byte _nSlider[6];
     boolean _bCheckbox[6];
     byte _nTouchpadMode;
@@ -62,11 +65,12 @@ class BeanSandbox
     byte _nPushButtonMode[16];
     boolean _bPushButtonImmediate[16];
     boolean _bPushButtonToggle[16];
-    
     unsigned long _nLastProcessed;
+    unsigned long _nLastControlUpdate;
+
     void _processSerial();
     boolean _sendControlValueToBean( byte nControl, byte nValue );
-
+    void _updateAllControls();
 };
 
 #endif
