@@ -7,9 +7,9 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
 
 This function is used to initialize all control values to their defaults.
 
-**Usage:**
+**Usage:** `
 
-`BeanSandbox sbx;
+BeanSandbox sbx;
 
 sbx.initializeValues();`
 
