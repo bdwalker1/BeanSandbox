@@ -1,4 +1,7 @@
 # BeanSandbox
+
+This library is shared under the GNU Public License. Please see the `GNUPublicLicense.txt` file in this repository or http://www.gnu.org/licenses/gpl.txt for details.
+
 A library for use with PunchThrough Design's LightBlue Bean and IOS app
 
 ## Methods
