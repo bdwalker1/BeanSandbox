@@ -672,11 +672,15 @@ void BeanSandbox::_updateAllControls()
     sendBuffer[(i*2)+25] = (byte) isBtnPressed(i+1);
   }
 
-  // Add the touchpad values
-  sendBuffer[56] = SBX_PADX;
-  sendBuffer[57] = getTouchpadX();
-  sendBuffer[58] = SBX_PADY;
-  sendBuffer[59] = 255-getTouchpadY();
+  // Only send updated touchpad values when touchpad is not active
+  if(!isTouchpadActive())
+  {
+    // Add the touchpad values
+    sendBuffer[56] = SBX_PADX;
+    sendBuffer[57] = getTouchpadX();
+    sendBuffer[58] = SBX_PADY;
+    sendBuffer[59] = 255-getTouchpadY();
+  }
 
   // Send the info to the sandbox
   Serial.write( (uint8_t*) sendBuffer, 60 );
