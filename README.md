@@ -5,10 +5,11 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
 
 #### initializeValues()
 
-    Used to initialize all control values to their defaults. This function is used
-    in the constructor, but can also be called any time.  For instance, you may want to call this 
-    function any time a new Bean connection is made so the internal values will match the 
-    Sandbox control default values.
+    Used to initialize all control values to their defaults. This function 
+    is used in the constructor, but can also be called any time. For 
+    instance, you may want to call this function any time a new Bean 
+    connection is made so the internal values will match the Sandbox 
+    control default values.
 
 **Usage:** 
 
@@ -17,8 +18,9 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
 ___
 #### autoUpdateSandbox( boolean bYesNo );
 
-    Sets whether to send value updates to the LightBlue app's controls on a periodic basis.  
-    If enabled the controls will be updated approximately every half second.
+    Sets whether to send value updates to the LightBlue app's controls on a 
+    periodic basis. If enabled the controls will be updated approximately 
+    every half second.
 
 **Paramters:**
 
@@ -38,8 +40,8 @@ ___
 ___
 #### getSliderValue( byte nSlider )
 
-    Gets the current value of a specific slider.  Valid slider numbers are 1 through 6.  Any
-    other slider number will return 0;
+    Gets the current value of a specific slider.  Valid slider numbers are 1 
+    through 6. Any other slider number will return 0;
 
 **Paramters:**
 
@@ -81,8 +83,8 @@ ___
 ___
 #### isChecked( byte nCheckbox )
 
-    Returns the current status of specified checkbox.  Valid checkbox numbers are 1 through 6.  
-    Any other checkbox number will return false.
+    Returns the current status of specified checkbox.  Valid checkbox 
+    numbers are 1 through 6. Any other checkbox number will return false.
 
 **Paramters:**
 
@@ -108,7 +110,8 @@ ___
 ___
 #### setCheckbox( byte nCheckbox, boolean bChecked )
 
-    Sets the value of a specified checkbox. Valid checkbox numbers are 1 through 6.
+    Sets the value of a specified checkbox. Valid checkbox numbers are 
+    1 through 6.
 
 **Paramters:**
 
@@ -134,9 +137,11 @@ ___
 ___
 #### void setTouchpadMode( byte nMode )
 
-    Sets the mode the touchpad operates in.  In immediate mode (the default mode) the touchpad values will update
-    as the user slides their finger around the touchpad.  In on-release mode the touchpad
-    values will only update when the user lifts their finger from the touchpad.
+    Sets the mode the touchpad operates in.  In immediate mode (the 
+    default mode) the touchpad values will update as the user slides 
+    their finger around the touchpad.  In on-release mode the touchpad
+    values will only update when the user lifts their finger from 
+    the touchpad.
 
 **Paramters:**
 
