@@ -15,6 +15,27 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
     BeanSandbox sbx;
     sbx.initializeValues();
 
+#### autoUpdateSandbox( boolean bYesNo );
+
+    Sets whether to send value updates to the LightBlue app's controls on a periodic basis.  
+    If enabled the controls will be updated approximately every half second.
+
+**Paramters:**
+
+    (boolean) bYesNo - True to enable control updates. False to disable updates.
+
+**Return Value:**
+
+    (boolean) True if automatic control updates are enabled, otherwise false.
+
+#### boolean autoUpdateSandbox();
+
+    Retrieves the current auto control update setting.
+
+**Return Value:**
+
+    (boolean) True if automatic control updates are enabled, otherwise false.
+
 #### getSliderValue( byte nSlider )
 
     Gets the current value of a specific slider.  Valid slider numbers are 1 through 6.  Any
