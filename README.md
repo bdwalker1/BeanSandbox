@@ -135,7 +135,7 @@ ___
       sbx.setCheckbox(2,false);
     }
 ___
-#### void setTouchpadMode( byte nMode )
+#### setTouchpadMode( byte nMode )
 
     Sets the mode the touchpad operates in.  In immediate mode (the 
     default mode) the touchpad values will update as the user slides 
@@ -152,7 +152,7 @@ ___
     BeanSandbox sbx;
     sbx.setTouchpadMode( SBX_PADMODE_ONRELEASE );
 ___
-#### byte getTouchpadX()
+#### getTouchpadX()
 
     Gets the current X-axis value for the touchpad.
 
@@ -167,7 +167,7 @@ ___
     analogWrite( A0, nX );
 
 ___
-#### byte getTouchpadY()
+#### getTouchpadY()
 
     Gets the current Y-axis value for the touchpad.
 
@@ -182,7 +182,7 @@ ___
     analogWrite( A1, nY );
 
 ___
-#### boolean setTouchpadX( byte nValue )
+#### setTouchpadX( byte nValue )
 
     Sets the x-axis of the touchpad.
 
@@ -200,7 +200,7 @@ ___
     byte nRand = (byte) random(0,256);
     sbx.setTouchpadX( nRand );
 ___
-#### boolean setTouchpadY( byte nValue )
+#### setTouchpadY( byte nValue )
 
     Sets the y-axis of the touchpad.
 
@@ -218,7 +218,7 @@ ___
     byte nRand = (byte) random(0,256);
     sbx.setTouchpadY( nRand );
 ___
-#### boolean setTouchpad( byte nX, byte nY )
+#### setTouchpad( byte nX, byte nY )
 
     Sets both x-axis and y-axis touchpad values at the same time.
 
@@ -238,7 +238,7 @@ ___
     byte nRandY = (byte) random(0,256);
     sbx.setTouchpad( nRandX, nRandY );
 ___
-#### boolean isTouchpadActive()
+#### isTouchpadActive()
 
     Indicates whether the touchpad is currently being touched.
 
@@ -258,11 +258,54 @@ ___
       Bean.setLed( 0, 0, 0 );
     }
 ___
-#### void setPushButtonMode( byte nButton, byte nMode )
+#### setPushButtonMode( byte nButton, byte nMode )
 
+    Sets the mode a push button operates in. By default the buttons operate 
+    in immediate mode where they are like a momentary push button -- active 
+    only while being touched.  In toggle mode the button will act as a 
+    push-on/push-off switch where the value will be go back and forth 
+    between on and off with each touch.
+
+**Paramters:**
+
+    (byte) nButton - The button number to set the mode for. (1 to 16)
+    (byte) nMode - nMode should be SBX_BTNMODE_IMMEDIATE or SBX_BTNMODE_TOGGLE.
+
+**Usage:**
+
+    BeanSandbox sbx;
+    // Set buttons 1-4 to toggle mode.
+    sbx.setPushButtonMode( 1, SBX_BTNMODE_TOGGLE );
+    sbx.setPushButtonMode( 2, SBX_BTNMODE_TOGGLE );
+    sbx.setPushButtonMode( 3, SBX_BTNMODE_TOGGLE );
+    sbx.setPushButtonMode( 4, SBX_BTNMODE_TOGGLE );
 ___
-#### boolean isBtnPressed( byte nButton )
+#### isBtnPressed( byte nButton )
 
+    Returns the current status of specified button.  Valid button 
+    numbers are 1 through 16. Any other button number will return false.
+
+**Paramters:**
+
+    (byte) nButton - The button whose value you wish to read. (1 to 16)
+
+**Return Value:**
+
+    (boolean) True if the button is currently pressed, otherwise false.
+
+**Usage:**
+
+    BeanSandbox sbx
+    if(sbx.isBtnPressed(1))
+    {
+      // Button 1 is pressed, write HIGH to pin 1
+      digitalWrite(1,HIGH);
+    }
+    else
+    {
+      // Button 1 is not pressed, write LOW to pin 1
+      digitalWrite(1,LOW);
+    }
 ___
 #### boolean setButton( byte nButton, boolean bPressed )
 
