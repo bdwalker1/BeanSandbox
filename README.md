@@ -14,7 +14,7 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
 
     BeanSandbox sbx;
     sbx.initializeValues();
-
+___
 #### autoUpdateSandbox( boolean bYesNo );
 
     Sets whether to send value updates to the LightBlue app's controls on a periodic basis.  
@@ -27,7 +27,7 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
 **Return Value:**
 
     (boolean) True if automatic control updates are enabled, otherwise false.
-
+___
 #### boolean autoUpdateSandbox();
 
     Retrieves the current auto control update setting.
@@ -35,7 +35,7 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
 **Return Value:**
 
     (boolean) True if automatic control updates are enabled, otherwise false.
-
+___
 #### getSliderValue( byte nSlider )
 
     Gets the current value of a specific slider.  Valid slider numbers are 1 through 6.  Any
@@ -54,7 +54,7 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
     BeanSandbox sbx
     byte nVolume;
     nVolume = sbx.getSliderValue(1);
-
+___
 #### setSliderValue( byte nSlider, byte nValue )
 
     Sets the value of a specified slider. Valid sliders are 1 through 6.
@@ -78,7 +78,7 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
       // Volume slider was set
       bVolumeChanged = true;
     }
-
+___
 #### isChecked( byte nCheckbox )
 
     Returns the current status of specified checkbox.  Valid checkbox numbers are 1 through 6.  
@@ -105,7 +105,7 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
       // Checkbox 1 is not checked, write LOW to pin 1
       digitalWrite(1,LOW);
     }
-
+___
 #### setCheckbox( byte nCheckbox, boolean bChecked )
 
     Sets the value of a specified checkbox. Valid checkbox numbers are 1 through 6.
@@ -131,23 +131,34 @@ A library for use with PunchThrough Design's LightBlue Bean and IOS app
     {
       sbx.setCheckbox(2,false);
     }
-
+___
 #### void setTouchpadMode( byte nMode )
 
+___
 #### byte getTouchpadX()
 
+___
 #### byte getTouchpadY()
 
+___
 #### boolean setTouchpadX( byte nValue )
 
+___
 #### boolean setTouchpadY( byte nValue )
 
+___
 #### boolean setTouchpad( byte nX, byte nY )
 
+___
 #### boolean isTouchpadActive()
 
+___
 #### void setPushButtonMode( byte nButton, byte nMode )
 
+___
 #### boolean isBtnPressed( byte nButton )
 
+___
 #### boolean setButton( byte nButton, boolean bPressed )
+
+___
