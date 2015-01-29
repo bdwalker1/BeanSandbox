@@ -83,6 +83,7 @@ void BeanSandbox::_processSerial()
   size_t length = 64;
   char _buffer[64];
   unsigned long nNow = millis();
+  boolean bButtonsUpdated = false;
 
   // To prevent hammering the Serial reads, we'll only process new serial input 
   // if it has been more than 30 milliseconds since our last check.
@@ -267,6 +268,7 @@ void BeanSandbox::_processSerial()
           case SBX_BTN15:
           case SBX_BTN16:
           {
+            bButtonsUpdated = true;
             // Set the index for the current push button
             int nIndex = nControl - SBX_BTN1;
             // If the button is pressed...
@@ -301,6 +303,31 @@ void BeanSandbox::_processSerial()
       {
         _updateAllControls();
         _nLastControlUpdate = nNow;
+      }
+    }
+    else
+    {
+      // If auto-update is not enabled, at least update values for any toggle buttons that may have changed
+      if( bButtonsUpdated )
+      {
+        char sendBuffer[32];
+        uint8_t length = 0;
+
+        for(int i=1; i<=16; i++)
+        {
+          if(_nPushButtonMode[i-1] == SBX_BTNMODE_TOGGLE)
+          {
+            sendBuffer[length] = i+12;
+            sendBuffer[length+1] = (byte) _bPushButtonToggle[i-1];
+            length += 2;
+          }
+        }
+
+        // Send the info to the sandbox
+        Serial.write( (uint8_t*) sendBuffer, length );
+        delay(10);
+        Bean.sleep(50);
+
       }
     }
   }
@@ -636,6 +663,7 @@ boolean BeanSandbox::_sendControlValueToBean( byte nControl, byte nValue )
 void BeanSandbox::_updateAllControls()
 {
   char sendBuffer[60];
+  uint8_t length = 60;
 
   // First, we’ll send slider values
   sendBuffer[0] = SBX_SLIDER1;
@@ -681,9 +709,13 @@ void BeanSandbox::_updateAllControls()
     sendBuffer[58] = SBX_PADY;
     sendBuffer[59] = 255-getTouchpadY();
   }
+  else
+  {
+    length = 56;
+  }
 
   // Send the info to the sandbox
-  Serial.write( (uint8_t*) sendBuffer, 60 );
+  Serial.write( (uint8_t*) sendBuffer, length );
   delay(10);
   Bean.sleep(50);
 }
