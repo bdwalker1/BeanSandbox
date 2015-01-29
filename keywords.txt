@@ -1,6 +1,6 @@
 BeanSandbox	KEYWORD1
 initializeValues	KEYWORD2
-autoUpdateSandbox KEYWORD2
+autoUpdateSandbox	KEYWORD2
 getSliderValue	KEYWORD2
 setSliderValue	KEYWORD2
 isChecked	KEYWORD2
