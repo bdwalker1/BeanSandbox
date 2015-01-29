@@ -307,6 +307,30 @@ ___
       digitalWrite(1,LOW);
     }
 ___
-#### boolean setButton( byte nButton, boolean bPressed )
+#### setButton( byte nButton, boolean bPressed )
 
+    Sets the value of a specified button. Valid button numbers are 
+    1 through 16.
+
+**Paramters:**
+
+    (byte) nButton - The button whose value you wish to set. (1 to 16)
+    (boolean) bPressed - True to set the button pressed. False to set unpressed.
+
+**Return Value:**
+
+    (boolean) True if the function succeeds, otherwise false.
+
+**Usage:**
+
+    // Button 1 will be turned on and off based on the value of digital pin 0
+    BeanSandbox sbx
+    if(digitalRead(0)==HIGH)
+    {
+      sbx.setButton(1,true);
+    }
+    else
+    {
+      sbx.setButton(1,false);
+    }
 ___
