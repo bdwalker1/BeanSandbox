@@ -47,7 +47,7 @@ ___
 
 **Return Value:**
 
-    (byte) The value of the specified slider.
+    (byte) The value of the specified slider. (0 to 255)
 
 **Usage:**
 
@@ -62,7 +62,7 @@ ___
 **Paramters:**
 
     (byte) nSlider - The slider whose value you wish to set. (1 to 6)
-    (byte) nValue - Value to be assigned to slider. (1 to 255)
+    (byte) nValue - Value to be assigned to slider. (0 to 255)
 
 **Return Value:**
 
@@ -134,24 +134,124 @@ ___
 ___
 #### void setTouchpadMode( byte nMode )
 
+    Sets the mode the touchpad operates in.  In immediate mode (the default mode) the touchpad values will update
+    as the user slides their finger around the touchpad.  In on-release mode the touchpad
+    values will only update when the user lifts their finger from the touchpad.
+
+**Paramters:**
+
+    (byte) nMode - nMode should be SBX_PADMODE_IMMEDIATE or SBX_PADMODE_ONRELEASE.
+
+**Usage:**
+
+    BeanSandbox sbx;
+    sbx.setTouchpadMode( SBX_PADMODE_ONRELEASE );
 ___
 #### byte getTouchpadX()
+
+    Gets the current X-axis value for the touchpad.
+
+**Return Value:**
+
+    (byte) The current x-axis value. (0 to 255)
+
+**Usage:**
+
+    BeanSandbox sbx;
+    byte nX = sbx.getTouchpadX();
+    analogWrite( A0, nX );
 
 ___
 #### byte getTouchpadY()
 
+    Gets the current Y-axis value for the touchpad.
+
+**Return Value:**
+
+    (byte) The current y-axis value. (0 to 255)
+
+**Usage:**
+
+    BeanSandbox sbx;
+    byte nY = sbx.getTouchpadY();
+    analogWrite( A1, nY );
+
 ___
 #### boolean setTouchpadX( byte nValue )
 
+    Sets the x-axis of the touchpad.
+
+**Parameters:**
+
+    (byte) nValue - The value to be assigned. (0 to 255)
+
+**Return Value:**
+
+    (boolean) True if the function succeeds, otherwise false.
+
+**Usage:**
+
+    BeanSandbox sbx;
+    byte nRand = (byte) random(0,256);
+    sbx.setTouchpadX( nRand );
 ___
 #### boolean setTouchpadY( byte nValue )
 
+    Sets the y-axis of the touchpad.
+
+**Parameters:**
+
+    (byte) nValue - The value to be assigned. (0 to 255)
+
+**Return Value:**
+
+    (boolean) True if the function succeeds, otherwise false.
+
+**Usage:**
+
+    BeanSandbox sbx;
+    byte nRand = (byte) random(0,256);
+    sbx.setTouchpadY( nRand );
 ___
 #### boolean setTouchpad( byte nX, byte nY )
 
+    Sets both x-axis and y-axis touchpad values at the same time.
+
+**Parameters:**
+
+    (byte) nX - The x-axis value to be assigned. (0 to 255)
+    (byte) nY - The y-axis value to be assigned. (0 to 255)
+
+**Return Value:**
+
+    (boolean) True if the function succeeds, otherwise false.
+
+**Usage:**
+
+    BeanSandbox sbx;
+    byte nRandX = (byte) random(0,256);
+    byte nRandY = (byte) random(0,256);
+    sbx.setTouchpad( nRandX, nRandY );
 ___
 #### boolean isTouchpadActive()
 
+    Indicates whether the touchpad is currently being touched.
+
+**Return Value:**
+
+    (boolean) True if the touchpad is being touched, otherwise false.
+
+**Usage:**
+
+    BeanSandbox sbx;
+    if(sbx.isTouchpadActive())
+    {
+      Bean.setLed( 255, 0, 0 );
+    }
+    else
+    {
+      Bean.setLed( 0, 0, 0 );
+    }
 ___
 #### void setPushButtonMode( byte nButton, byte nMode )
 
