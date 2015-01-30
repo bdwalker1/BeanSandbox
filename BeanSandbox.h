@@ -29,6 +29,7 @@
 // Define push button modes
 #define SBX_BTNMODE_IMMEDIATE 0       // Push button acts as momentary switch
 #define SBX_BTNMODE_TOGGLE 1          // Push button acts as push-on/push-off switch
+#define SBX_BTNMODE_LED 2             // Push button will be used as an LED.
 
 class BeanSandbox
 {
@@ -53,6 +54,8 @@ class BeanSandbox
     void setPushButtonMode( byte nButton, byte nMode );
     boolean isBtnPressed( byte nButton );
     boolean setButton( byte nButton, boolean bPressed );
+    boolean isLedOn( byte nLed );
+    boolean setLed( byte nLed, boolean bOnOff );
     
   private:
     boolean _bAutoUpdateSandbox;

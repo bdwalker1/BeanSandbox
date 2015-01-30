@@ -271,18 +271,31 @@ void BeanSandbox::_processSerial()
             bButtonsUpdated = true;
             // Set the index for the current push button
             int nIndex = nControl - SBX_BTN1;
-            // If the button is pressed...
-            if(nValue==0)
+            // Process based on the button’s mode setting
+            switch(_nPushButtonMode[nIndex])
             {
-              // ... update immediate value to true ...
-              _bPushButtonImmediate[nIndex] = true;
-              // ... and toggle the button's toggle value.
-              _bPushButtonToggle[nIndex] = !(_bPushButtonToggle[nIndex]);
-            }
-            else
-            {
-              // If the button was released update the immediate value to false.
-              _bPushButtonImmediate[nIndex] = false;
+              // If the button’s mode is SBX_BTNMODE_LED ignore presses from the Sandbox.
+              case SBX_BTNMODE_LED:
+              {
+                break;
+              }
+              // Otherwise, set value as appropriate.
+              default:
+              {
+                // If the button is pressed...
+                if(nValue==0)
+                {
+                  // ... update immediate value to true ...
+                  _bPushButtonImmediate[nIndex] = true;
+                  // ... and toggle the button's toggle value.
+                  _bPushButtonToggle[nIndex] = !(_bPushButtonToggle[nIndex]);
+                }
+               else
+                {
+                  // If the button was released update the immediate value to false.
+                  _bPushButtonImmediate[nIndex] = false;
+                }
+              }
             }
             break;
           }
@@ -307,7 +320,7 @@ void BeanSandbox::_processSerial()
     }
     else
     {
-      // If auto-update is not enabled, at least update values for any toggle buttons that may have changed
+      // If auto-update is not enabled, at least update values for any buttons set to toggle or LED mode that may have changed
       if( bButtonsUpdated )
       {
         char sendBuffer[32];
@@ -315,7 +328,7 @@ void BeanSandbox::_processSerial()
 
         for(int i=1; i<=16; i++)
         {
-          if(_nPushButtonMode[i-1] == SBX_BTNMODE_TOGGLE)
+          if( (_nPushButtonMode[i-1] == SBX_BTNMODE_TOGGLE) || (_nPushButtonMode[i-1] == SBX_BTNMODE_LED) )
           {
             sendBuffer[length] = i+12;
             sendBuffer[length+1] = (byte) _bPushButtonToggle[i-1];
@@ -575,6 +588,7 @@ void BeanSandbox::setPushButtonMode( byte nButton, byte nMode )
       // If mode is immediate or toggle set the button's mode value.
       case SBX_BTNMODE_IMMEDIATE:
       case SBX_BTNMODE_TOGGLE:
+      case SBX_BTNMODE_LED:
       {
         _nPushButtonMode[nButton-1] = nMode;
         break;
@@ -639,6 +653,42 @@ boolean BeanSandbox::setButton( byte nButton, boolean bPressed )
         _bPushButtonToggle[nButton-1] = !_bPushButtonToggle[nButton-1];
     }
   }
+  return bReturnValue;
+}
+
+boolean BeanSandbox::isLedOn( byte nLed )
+{
+  // Default return value to false
+  boolean bReturnValue = false;  
+
+  // If LED number is valid (1-16) ...
+  if( (nLed>=1) && (nLed <=16) )
+  {
+    // If the specified button control’s mode is set to SBX_BTNMODE_LED
+    if( _nPushButtonMode[nLed-1] == SBX_BTNMODE_LED )
+    {
+       bReturnValue = isBtnPressed( nLed );
+    }
+  }
+
+  return bReturnValue;
+}
+
+boolean BeanSandbox::setLed( byte nLed, boolean bOnOff )
+{
+  // Default return value to false
+  boolean bReturnValue = false;  
+
+  // If LED number is valid (1-16) ...
+  if( (nLed>=1) && (nLed <=16) )
+  {
+    // If the specified button control’s mode is set to SBX_BTNMODE_LED
+    if( _nPushButtonMode[nLed-1] == SBX_BTNMODE_LED )
+    {
+       bReturnValue = setButton( nLed, bOnOff );
+    }
+  }
+
   return bReturnValue;
 }
 
