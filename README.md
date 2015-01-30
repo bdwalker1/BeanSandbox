@@ -272,12 +272,17 @@ ___
 **Paramters:**
 
     (byte) nButton - The button number to set the mode for. (1 to 16)
-    (byte) nMode - nMode should be SBX_BTNMODE_IMMEDIATE or SBX_BTNMODE_TOGGLE.
+    (byte) nMode - nMode should be SBX_BTNMODE_IMMEDIATE SBX_BTNMODE_TOGGLE or SBX_BTNMODE_LED.
 
 **Usage:**
 
     BeanSandbox sbx;
-    // Set buttons 1-4 to toggle mode.
+    // Set buttons 1-4 to LED mode.
+    sbx.setPushButtonMode( 1, SBX_BTNMODE_LED );
+    sbx.setPushButtonMode( 2, SBX_BTNMODE_LED );
+    sbx.setPushButtonMode( 3, SBX_BTNMODE_LED );
+    sbx.setPushButtonMode( 4, SBX_BTNMODE_LED );
+    // Set buttons 5-8 to toggle mode.
     sbx.setPushButtonMode( 1, SBX_BTNMODE_TOGGLE );
     sbx.setPushButtonMode( 2, SBX_BTNMODE_TOGGLE );
     sbx.setPushButtonMode( 3, SBX_BTNMODE_TOGGLE );
@@ -335,5 +340,59 @@ ___
     else
     {
       sbx.setButton(1,false);
+    }
+___
+#### isLedOn( byte nLed )
+
+    This is a wrapper function for isBtnPressed() for buttons being used as LEDs.
+    Returns the current status of specified virtual LED.  Valid LED 
+    numbers are 1 through 16. Any other LED number will return false. Also, if
+    specified button is not set to LED mode this function will return false.
+
+**Paramters:**
+
+    (byte) nLed - The LED(button) whose status you wish to read. (1 to 16)
+
+**Return Value:**
+
+    (boolean) True if the LED is currently set to be on, otherwise false.
+
+**Usage:**
+
+    BeanSandbox sbx
+    sbx.setPushButtonMode(1,SBX_BTNMODE_LED);
+    // If LED 1 is on, turn it off.
+    if(sbx.isLedOn(1))
+    {
+      sbx.setLed(1, false);
+    }
+___
+#### setLed( byte nLed, boolean bOnOff )
+
+    This is a wrapper function for setButton() for buttons being used as LEDs.
+    Turns virtual LED (button) on or off. Valid LED numbers are 
+    1 through 16.
+
+**Paramters:**
+
+    (byte) nLed - The LED you wish to set. (1 to 16)
+    (boolean) bOnOff - True to turn the LED on. False to turn the LED off.
+
+**Return Value:**
+
+    (boolean) True if the function succeeds, otherwise false.
+
+**Usage:**
+
+    // Virtual LED 1 will be turned on and off based on the value of digital pin 0
+    BeanSandbox sbx
+    sbx.setPushButtonMode(1,SBX_BTNMODE_LED);
+    if(digitalRead(0)==HIGH)
+    {
+      sbx.setLed(1,true);
+    }
+    else
+    {
+      sbx.setLed(1,false);
     }
 ___
