@@ -272,7 +272,8 @@ ___
 **Paramters:**
 
     (byte) nButton - The button number to set the mode for. (1 to 16)
-    (byte) nMode - nMode should be SBX_BTNMODE_IMMEDIATE SBX_BTNMODE_TOGGLE or SBX_BTNMODE_LED.
+    (byte) nMode - nMode should be SBX_BTNMODE_IMMEDIATE, SBX_BTNMODE_TOGGLE 
+                   or SBX_BTNMODE_LED.
 
 **Usage:**
 
