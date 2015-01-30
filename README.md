@@ -284,10 +284,10 @@ ___
     sbx.setPushButtonMode( 3, SBX_BTNMODE_LED );
     sbx.setPushButtonMode( 4, SBX_BTNMODE_LED );
     // Set buttons 5-8 to toggle mode.
-    sbx.setPushButtonMode( 1, SBX_BTNMODE_TOGGLE );
-    sbx.setPushButtonMode( 2, SBX_BTNMODE_TOGGLE );
-    sbx.setPushButtonMode( 3, SBX_BTNMODE_TOGGLE );
-    sbx.setPushButtonMode( 4, SBX_BTNMODE_TOGGLE );
+    sbx.setPushButtonMode( 5, SBX_BTNMODE_TOGGLE );
+    sbx.setPushButtonMode( 6, SBX_BTNMODE_TOGGLE );
+    sbx.setPushButtonMode( 7, SBX_BTNMODE_TOGGLE );
+    sbx.setPushButtonMode( 8, SBX_BTNMODE_TOGGLE );
 ___
 #### isBtnPressed( byte nButton )
 
