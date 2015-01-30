@@ -320,27 +320,41 @@ void BeanSandbox::_processSerial()
     }
     else
     {
-      // If auto-update is not enabled, at least update values for any buttons set to toggle or LED mode that may have changed
+      char sendBuffer[32];
+      uint8_t length = 0;
+
+      // If auto-update is not enabled, at least update values for any buttons set to toggle that may have changed
       if( bButtonsUpdated )
       {
-        char sendBuffer[32];
-        uint8_t length = 0;
-
         for(int i=1; i<=16; i++)
         {
-          if( (_nPushButtonMode[i-1] == SBX_BTNMODE_TOGGLE) || (_nPushButtonMode[i-1] == SBX_BTNMODE_LED) )
+          if( _nPushButtonMode[i-1] == SBX_BTNMODE_TOGGLE )
           {
             sendBuffer[length] = i+12;
             sendBuffer[length+1] = (byte) _bPushButtonToggle[i-1];
             length += 2;
           }
         }
+      }
 
+      // Always update buttons set to LED mode as long as the button isn’t currently being 
+      for(int i=1; i<=16; i++)
+      {
+        if( _nPushButtonMode[i-1] == SBX_BTNMODE_LED )
+        {
+          sendBuffer[length] = i+12;
+          sendBuffer[length+1] = (byte) _bPushButtonImmediate[i-1];
+          length += 2;
+        }
+      }
+
+      // If we put data in the buffer, send it
+      if(length>0)
+      {
         // Send the info to the sandbox
         Serial.write( (uint8_t*) sendBuffer, length );
         delay(10);
         Bean.sleep(50);
-
       }
     }
   }
@@ -649,8 +663,14 @@ boolean BeanSandbox::setButton( byte nButton, boolean bPressed )
     {
       // ... store the new status in our arrays.
       _bPushButtonImmediate[nButton-1] = bPressed;
-      if(bPressed)
+      if(bPressed && (_nPushButtonMode[nButton-1] == SBX_BTNMODE_TOGGLE) )
+      {
         _bPushButtonToggle[nButton-1] = !_bPushButtonToggle[nButton-1];
+      }
+      else
+      {
+        _bPushButtonToggle[nButton-1] = bPressed;
+      }
     }
   }
   return bReturnValue;
